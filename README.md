@@ -16,8 +16,8 @@ If you are not familiar with the mbed connector api, we recommend that you read 
     ```
     or set an evironment variable called `ACCESS_KEY` with the value of your API key
 2. Run the `app.py` file
-    ```
-    python python ./app.py
+    ```python 
+    python ./app.py
     ```
 3. Open a web page to the web.py server. Usually [//localhost:8080](//localhost:8080) will work. 
 
