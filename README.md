@@ -1,6 +1,6 @@
 # mbed-server-withPIR
 
-This is a simple webapp for mbed server meant to be paired with the [mbed-client-withPIR](https://github.com/MaggieMei/mbed-client-withPIR) application. The goal of this application is to get the user up and running, using the mbed-connector-python package and talking to devices through mbed Device Connector in under 5 min, 5 steps or less. It will allow the user to visualize quickstart embedded devices and interact with them. 
+This is a simple webapp for mbed server meant to be paired with the [mbed-client-withPIR](https://github.com/MaggieMei/mbed-client-withPIR) application. The goal of this application is to get the user up and running, using the mbed-connector-python package and talking to devices through mbed Device Connector in under 5 min, 5 steps or less. 
 
 If you are not familiar with the mbed connector api, we recommend that you read the [mbed-connector-api-python](https://github.com/armmbed/mbed-connector-api-python) first.
 
