@@ -1,13 +1,12 @@
-# mbed-server-with-PIR
-Server example for PIR sensor
+# mbed-server-withPIR
 
-This is a quickstart application for the [mbed-connector-api-python](https://github.com/armmbed/mbed-connector-api-python) package. 
-The goal of this application is to get the user up and running, using the mbed-connector-python package and talking to devices through mbed Device Connector in under 5 min, 5 steps or less.
-The quickstart webapp is meant to be paired with the [quickstart embedded app](https://github.com/ARMmbed/mbed-client-quickstart). The quickstart web app will allow the user to visualize quickstart embedded devices and interact with them. 
+This is a simple webapp for mbed server meant to be paired with the [mbed-client-withPIR](https://github.com/MaggieMei/mbed-client-withPIR) application. The goal of this application is to get the user up and running, using the mbed-connector-python package and talking to devices through mbed Device Connector in under 5 min, 5 steps or less. It will allow the user to visualize quickstart embedded devices and interact with them. 
+
+If you are not familiar with the mbed connector api, we recommend that you read the [mbed-connector-api-python](https://github.com/armmbed/mbed-connector-api-python) first.
 
 ### Pre-requisites
 - A [mbed connector](https://connector.mbed.com) account and have generated an [API token](https://connector.mbed.com/#accesskeys)
-- A endpoint running the [mbed client quickstart example](https://github.com/ARMmbed/mbed-client-quickstart)
+- An endpoint with PIR sensor running the [mbed-client-withPIR](https://github.com/MaggieMei/mbed-client-withPIR)
 - Install the required packages `pip install -r requirements.txt`
 
 ### Use
@@ -21,8 +20,7 @@ The quickstart webapp is meant to be paired with the [quickstart embedded app](h
 python ./app.py
 ```
 3. Open a web page to the web.py server. Usually [//localhost:8080](//localhost:8080) will work. 
-4. Interact with the web page, blink the LED's, subscribe to the resources, click the button on the board and see the numbers tick up on the web app.
-    {{TODO: insert gif's here}}
+4. Interact with the web page, blink the LED's, control the sensor, subscribe to the resources, click the button on the board, keep the PIR sensor working and see the numbers tick up on the web app.
 5. Modify : go checkout the API for the [mbed-connector-api-python library](https://docs.mbed.com/docs/mbed-connector-api-python/en/latest/) and make your own applications!
 
 
