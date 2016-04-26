@@ -11,7 +11,7 @@ socketio = SocketIO(app,async_mode='threading')
 if 'ACCESS_KEY' in os.environ.keys():
 	token = os.environ['ACCESS_KEY'] # get access key from environment variable
 else:
-	token = "VbYjRRKaFjtD8wfL9qnXz8tt2lFcnERgwSfEwKFZUXEKLgc6jkxXvCk4DvAutRwX44yhiyN5VCRo2reOfDziPAj4atNGnmyZ5nuA" # replace with your API token
+	token = "Change Me" # replace with your API token
 
 connector = mbed_connector_api.connector(token)
 
