@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>mbed Device Connector Webapp Quickstart</title>
+    <title>mbed Device Connector Webapp for Temperature & Humidity Sensor</title>
 
     <link rel="stylesheet" href="static/css/normalize.css">
     <link rel="stylesheet" href="static/css/foundation.min.css">
@@ -21,22 +21,26 @@
         <div><img src="static/img/ARMmbedLogo.png" alt="ARM mbed"></div>
       </div>
     </div>
+    
     <div class="blueband">
       <div class="row">
         <div class="small-12 columns">
-          <h1>Webapp Quickstart</h1>
+          <h1>Webapp for Temperature & Humidity Sensor</h1>
         </div>
       </div>
     </div>
+    
     <div id="endpoints">
     {{#each endpoints}}
       <div class="row" id="{{name}}">
         <div class="small-12 columns">
+          
           <div class="row">
             <div class="small-12 columns">
               <h2>{{name}}</h2>
             </div>
           </div>
+          
           <div class="row">
             <div class="small-12 medium-6 columns">
               <h4>Presses: <span class="presses-value">Unknown</span></h4>
@@ -45,33 +49,51 @@
             </div>
           </div>
 		  
-		  <div class="row">
-			<div class="small-12 medium-6 columns">
-			  <h4>PIR State: <span class="state-value">ON</span></h4>
-              <button class="pir-on">PIR_ON</button>
-			  <button class="pir-off">PIR_OFF</button>
-              <h4>Motion Detected: <span class="detected-value">Unknown</span></h4>
-			  <label><input type="checkbox" class="subscribe-detected"> Subscribe</label>
-              <button class="get-detected">GET</button>
+		      <div class="row">
+			      <div class="small-12 medium-6 columns">
+			        <h4>Current Temperature: <span class="temperature-value">Unknown</span> Degrees</h4>
+              
+		        </div>
+          </div>
+          
+          <div class="row">
+            <div class="small-12 medium-6 columns">
+              <h4>Temperature Curves: </h4>
+              <label>From <input type="date" value='2016-07-27' class="sdate_temp"> <input type="time" value="00:00" class="stime_temp"> To <input type="time" value="23:59" class="etime_temp">
+              <button class="get-temp">GET</button><br/><br/>
+              <label>The average temperature is: <span class="average_temp"> Unknown</span> Degrees</label><br/><br/>
+              <label><font style="font-color:red;font-style:italic;">Please check Temperature.png for the Temperature curves</font></label><br/><br/>
             </div>
           </div>
-		  
-		  <div class="row">
-		  <div class="small-12 medium-6 columns">
-              <h4>LED Blink Pattern</h4>
-              <div>
-                <input type="text" value="{{blinkPattern}}" class="blink-pattern">
-              </div>
-              <div class="row">
-                <div class="small-6 columns">
-                  <button class="update-blink-pattern">Update (PUT)</button>
-                </div>
-                <div class="small-6 columns text-right">
-                  <button class="blink">Blink (POST)</button>
-                </div>
-              </div>
+          
+          <div class="row">
+            <div class="small-12 medium-6 columns">
+              <button class="clean-temp" style="height:30px">Restart Temperature Detection</button><br/><br/>
             </div>
-			</div>
+          </div>
+          
+          <div class="row">
+			      <div class="small-12 medium-6 columns">
+			        <h4>Current Humidity: <span class="humidity-value">Unknown</span> %rh</h4>
+		        </div>
+          </div>
+          
+          <div class="row">
+            <div class="small-12 medium-6 columns">
+              <h4>Humidity Curves: </h4>
+              <label>From <input type="date" value='2016-07-27' class="sdate_hum"> <input type="time" value="00:00" class="stime_hum"> To <input type="time" value="23:59" class="etime_hum">
+              <button class="get-hum">GET</button><br/><br/>
+              <label>The average humidity is: <span class="average_hum"> Unknown</span> %rh</label><br/><br/>
+              <label><font style="font-color:red;font-style:italic;">Please check Humidity.png for the Humidity curves</font></label><br/><br/>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="small-12 medium-6 columns">
+              <button class="clean-hum" style="height:30px">Restart Humidity Detection</button><br/><br/>
+            </div>
+          </div>
+          
         </div>
       </div>
     {{/each}}
@@ -81,116 +103,100 @@
     <script type="text/javascript" src="/static/js/jquery-2.1.4.min.js"></script>
     <script type="text/javascript" src="/static/js/socket.io.js"></script>
     <script type="text/javascript">
-      $(function() {
-        var socket = io();
+    $(function() {
+      var socket = io();
 
-        $('#endpoints').children().each(function(index, element) {
-          var _this = $(this);
-          _this.find('.subscribe-presses').change(function() {
-            if ($(this).is(":checked")) {
-              _this.find('.get-presses').prop('disabled', true);
-              socket.emit('subscribe_to_presses', {
-                endpointName: _this.attr('id')
-              });
-            } else {
-              _this.find('.get-presses').prop('disabled', false);
-              socket.emit('unsubscribe_to_presses', {
-                endpointName: _this.attr('id')
-              });
-            }
-          });
-		  
-		  _this.find('.subscribe-detected').change(function() {
-            if ($(this).is(":checked")) {
-              _this.find('.get-detected').prop('disabled', true);
-              socket.emit('subscribe_to_detected', {
-                endpointName: _this.attr('id')
-              });
-            } else {
-              _this.find('.get-detected').prop('disabled', false);
-              socket.emit('unsubscribe_to_detected', {
-                endpointName: _this.attr('id')
-              });
-            }
-          });
-
-          _this.find('.get-presses').on('click', function() {
-            socket.emit('get_presses', {
+      $('#endpoints').children().each(function(index, element) {
+        var _this = $(this);
+        _this.find('.subscribe-presses').change(function() {
+          if ($(this).is(":checked")) {
+            _this.find('.get-presses').prop('disabled', true);
+            socket.emit('subscribe_to_presses', {
               endpointName: _this.attr('id')
             });
-          });
-		  
-		  _this.find('.get-detected').on('click', function() {
-            socket.emit('get_detected', {
-              endpointName: _this.attr('id')
+          } else {
+            _this.find('.get-presses').prop('disabled', false);
+            socket.emit('unsubscribe_to_presses', {
+            endpointName: _this.attr('id')
             });
-          });
-		  
-		  _this.find('.pir-on').on('click', function() {
-            socket.emit('pir_control', {
-              endpointName: _this.attr('id'),value:"1"
-            });
-          });
-		  
-		   _this.find('.pir-off').on('click', function() {
-            socket.emit('pir_control', {
-              endpointName: _this.attr('id'),value:"0"
-            });
-          });
-
-          _this.find('.blink-pattern').bind('input', function() {
-            _this.find('.update-blink-pattern').addClass('active');
-          })
-
-          _this.find('.update-blink-pattern').on('click', function() {
-            socket.emit('update_blink_pattern', {
-              endpointName: _this.attr('id'),
-              blinkPattern: _this.find('.blink-pattern').val()
-            });
-
-            $(this).removeClass('active');
-          });
-
-          _this.find('.blink').on('click', function() {
-            socket.emit('blink', {
-              endpointName: _this.attr('id')
-            });
+          }
+        });
+          
+        _this.find('.get-presses').on('click', function() {
+        socket.emit('get_presses', {
+            endpointName: _this.attr('id')
           });
         });
-
-
-        socket.on('presses', function (data) {
-          console.log('presses', data);
-          $('#' + data.endpointName + ' .presses-value').html(data.value);
+        
+        _this.find('.get-temp').on('click', function() {
+          socket.emit('get_curves', {
+            endpointName: _this.attr('id'),
+            value: {"type": 'temp', "sdate": _this.find('.sdate_temp').val(), "stime": _this.find('.stime_temp').val(), "etime": _this.find('.etime_temp').val()}
+          });
         });
-		
-		socket.on('detected', function (data) {
-          console.log('detected', data);
-          $('#' + data.endpointName + ' .detected-value').html(data.value);
+        
+        _this.find('.clean-temp').on('click', function() {
+        socket.emit('clean_temp', {
+            endpointName: _this.attr('id')
+          });
         });
-
-		socket.on('control', function (data) {
-          console.log('control', data);
-          $('#' + data.endpointName + ' .state-value').html(data.value);
+        
+        _this.find('.get-hum').on('click', function() {
+          socket.emit('get_curves', {
+            endpointName: _this.attr('id'),
+            value: {"type": 'hum', "sdate": _this.find('.sdate_hum').val(), "stime": _this.find('.stime_hum').val(), "etime": _this.find('.etime_hum').val()}
+          });
         });
-		
-        socket.on('subscribed-to-presses', function (data) {
-          console.log('subscribed-to-presses', data);
+        
+        _this.find('.clean-hum').on('click', function() {
+          socket.emit('clean_hum', {
+            endpointName: _this.attr('id')
+          });
         });
-		
-		socket.on('subscribed-to-detected', function (data) {
-          console.log('subscribed-to-detected', data);
-        });
-
-        socket.on('unsubscribed-to-presses', function (data) {
-          console.log('unsubscribed-to-presses', data);
-        });
-		
-		socket.on('unsubscribed-to-detected', function (data) {
-          console.log('unsubscribed-to-detected', data);
-        });
-
       });
+      
+      socket.on('presses', function (data) {
+        console.log('presses', data);
+        $('#' + data.endpointName + ' .presses-value').html(data.value);
+      });
+        
+      socket.on('Average-temp', function (data) {
+        console.log('Average-temp', data);
+        $('#' + data.endpointName + ' .average_temp').html(data.value);
+      });
+      
+      socket.on('Average-hum', function (data) {
+        console.log('Average-hum', data);
+        $('#' + data.endpointName + ' .average_hum').html(data.value);
+      });
+		
+		  socket.on('display-temp', function (data) {
+        console.log('display-temp', data);
+        $('#' + data.endpointName + ' .temperature-value').html(data.value);
+      });
+      
+      socket.on('display-hum', function (data) {
+        console.log('display-hum', data);
+        $('#' + data.endpointName + ' .humidity-value').html(data.value);
+      });
+      
+      socket.on('subscribed-to-presses', function (data) {
+        console.log('subscribed-to-presses', data);
+      });
+		
+		  socket.on('unsubscribed-to-presses', function (data) {
+        console.log('unsubscribed-to-presses', data);
+      });
+      
+      socket.on('cleanTemp', function (data) {
+        console.log('cleanTemp', data);
+      });
+      
+      socket.on('cleanHum', function (data) {
+        console.log('cleanHum', data);
+      });
+      
+    });
     </script>
   </body>
 </html>
